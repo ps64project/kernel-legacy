@@ -1,2 +1,2 @@
-# philosophers-stone
-64bit Operating System Kernel Project
+# Philoshpher's Stone
+Philosopher's Stone is the project that building my own kernel.
