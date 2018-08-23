@@ -8,18 +8,45 @@
 [ORG 0x00]
 [BITS 16]
 
-    mov ax, 0x1000
+    mov ax, 0x1000       ; set Entry Point as 0x10000
 
     mov ds, ax
     mov es, ax
 
     cli                  ; Prevent interrupt
-    lgdt [GDTR]
+    lgdt [GDTR]          ; Load GDT
 
     mov  eax, 0x4000003B ; PG=0, CD=1, NW=0, AM=0, WP=0, NE=1, ET=1, TS=1, EM=0, MP=1, PE=1
     mov  cr0, eax        ; SET CR0, Enable Protection Mode
 
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Disable Paging, Disable Cache, Internal FPU, Disable Align Check
+    ; Enable 32-bit Protected Mode
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
+[BITS 32]
+
+PROTECTEDMODE:
+    ; set Data Segment address
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    ; Create stack, 64KB Size, 0x0000-0xFFFF
+    mov ss, ax
+    mov esp, 0xFFFE
+    mov ebp, 0xFFFE
+
+    ; Complete Protection Mode
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Functions                                      ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
