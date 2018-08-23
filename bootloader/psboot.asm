@@ -22,8 +22,7 @@ TOTALSECTORCOUNT: dw 1024
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-BEGIN:      
-            mov ah, 2
+BEGIN:      mov ah, 2
             mov bh, 1
             mov dh, 1
             mov dl, 8
