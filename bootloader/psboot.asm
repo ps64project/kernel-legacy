@@ -67,7 +67,8 @@ READ:       cmp  di, 0
             sub  di, 0x1
 
             ; BIOS service 2, read 1 sector
-            mov  ax, 0x21
+            mov  ax, 0x0201
+
             mov  ch, byte[TRACKNO]
             mov  cl, byte[SECTORNO]
             mov  dh, byte[HEADNO]
