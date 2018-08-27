@@ -4,18 +4,19 @@
 #
 ##############################################
 
-NASM32='nasm'
+NASM32=nasm
 
-GCC='gcc -std=c++17'
-GCC_FLAGS='-c -ffreestanding -Wall -Wpedantic -Iinclude --std=c++17'
+BUILD_TEMP=__build
+BUILD_SRC=src
 
-LD32='ld'
-LD32_FLAGS='i-melf_i386 -T ../elf_i386.x -nostdlib -e _Z11KernelStartv'
+GCC32=gcc
+GCC32_FLAGS=--std=c++17 -m32 -c -ffreestanding -O0 -I../$(BUILD_SRC)/include -Wall -Wextra -Wpedantic
 
-OBJCOPY32='objcopy'
-OBJCOPY32_FLAGS='-j .text -j .data -j .rodata -j .bss -S -O binary'
+LD32=ld
+LD32_FLAGS=-melf_i386 -T ../../ldscript/elf_i386.x -nostdlib -e _Z11KernelStartv -Ttext 0x10200
 
-BUILD_TEMP='__build'
+OBJCOPY32=objcopy
+OBJCOPY32_FLAGS=-j .text -j .data -j .rodata -j .bss -S -O binary
 
 ##############################################
 #
@@ -28,22 +29,51 @@ all: prepare pskrnl32
 prepare:
 	mkdir -p $(BUILD_TEMP)
 
-$(BUILD_TEMP)/KernelProtectEntry.bin: KernelProtectEntry.asm
-	$(NASM32) -o $@ $<
+$(BUILD_TEMP)/KernelProtectEntry: $(BUILD_SRC)/KernelProtectEntry.asm
+	$(NASM32) -f elf32 -o $@ $<
 
 dep:
 	# Dependency
-	make -C $(BUILD_TEMP) -f ../makefile InternalDependency
+	make -C $(BUILD_TEMP) -f ../Makefile InternalDependency
 
 ExecuteInternalBuild: dep
-	make -C $(BUILD_TEMP) -f ../makefile KernelEntry32.elf
+	make -C $(BUILD_TEMP) -f ../Makefile Kernel32.elf
 
-$(BUILD_TEMP)/KernelEntry32.elf.bin: ExecuteInternalBuild
-	$(OBJCOPY)i $(BUILD_TEMP)/KernelEntry32.elf $@
+$(BUILD_TEMP)/Kernel32.elf.bin: ExecuteInternalBuild
+	$(OBJCOPY) $(BUILD_TEMP)/Kernel32.elf $@
 
-pskrnl32: $(BUILD_TEMP)/KernelProtectEntry.asm $(BUILD_TEMP)/KernelEntry32.elf.bin
+pskrnl32: $(BUILD_TEMP)/KernelProtectEntry $(BUILD_TEMP)/Kernel32.elf.bin
 	cat $^ > $@
 
 cleanup:
 	rm -f *.bin
 	rm -f $(BUILD_TEMP)/*
+
+
+##############################################
+#
+#	C++ Kernel Build
+#
+##############################################
+
+CPPENTRYOBJ=KernelEntry32.o
+CPPSRCFILES=$(wildcard ../$(BUILD_SRC)/*.cpp)
+ASMSRCFILES=$(wildcard ../$(BUILD_SRC)/*.asm)
+CPPOBJFILES=$(subst KernelEntry32.o, , $(notdir $(patsubst %.cpp, %.o,$(CPPSRCFILES))))
+ASMOBJFILES=$(notdir $(patsubst %.asm,%.o,$(ASMSRCFILES)))
+
+%.o: ../$(BUILD_SRC)/%.cpp
+	$(GCC32) $(GCC32_FLAGS) $<
+
+%.o: ../$(BUILD_SRC)/%.asm
+	$(NASM32) -f elf32 -o $@ $<
+
+InternalDependency:
+	$(GCC32) $(GCC32_FLAGS) -MM $(CPPSRCFILES) > Dependency.dep
+
+Kernel32.elf: $(CPPENTRYOBJ) $(CPPOBJFILES) $(ASMOBJFILES)
+	$(LD32) $(LD32_FLAGS) -o $@ $^
+
+ifeq (Dependency.dep, $(wildcard Dependency.dep))
+include Dependency.dep
+endif

@@ -8,6 +8,9 @@
 [ORG 0x00]
 [BITS 16]
 
+SECTION .text
+
+START:
     mov ax, 0x1000       ; set Entry Point as 0x10000
 
     mov ds, ax
@@ -19,6 +22,7 @@
     mov  eax, 0x4000003B ; PG=0, CD=1, NW=0, AM=0, WP=0, NE=1, ET=1, TS=1, EM=0, MP=1, PE=1
     mov  cr0, eax        ; SET CR0, Enable Protection Mode
 
+    jmp dword 0x08: ( PROTECTEDMODE - $$ + 0x10000 )
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; Disable Paging, Disable Cache, Internal FPU, Disable Align Check
     ; Enable 32-bit Protected Mode
@@ -40,17 +44,63 @@ PROTECTEDMODE:
     mov ebp, 0xFFFE
 
     ; Complete Protection Mode, Load Kernel
-    jmp dword 0x08: 10200
+
+    jmp dword 0x08: 0x10200
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Functions                                      ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+PRINTMESSAGE:
+    push ebp
+    mov ebp, esp
+    push esi
+    push edi
+    push eax
+    push ecx
+    push edx
+
+    mov eax, dword [ ebp + 12 ]
+    mov esi, 160
+    mul esi
+    mov edi, eax
+
+    mov eax, dword [ ebp + 8 ]
+    mov esi, 2
+    mul esi
+    add esi, eax
+
+    mov esi, dword [ ebp + 16 ]
+
+.MESSAGELOOP:
+    mov cl, byte [ esi ]
+
+    cmp cl, 0
+    je .MESSAGEEND
+
+    mov byte [ edi + 0xB8000 ], cl
+
+    add esi, 1
+    add edi, 2
+    jmp .MESSAGELOOP
+
+.MESSAGEEND:
+    pop edx
+    pop ecx
+    pop eax
+    pop edi
+    pop esi
+    pop ebp
+    ret
 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Data                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+align 8, db 0
+dw    0x0000
 
 GDTR:
     dw  GDTEND - GDT - 1
@@ -100,6 +150,8 @@ GDT:
         db  0x00
 
 GDTEND:
+
+LOADOK: db 'Kernel Load OKAY', 0x00
 
 times   512 - ($ - $$)  db 0x00
 

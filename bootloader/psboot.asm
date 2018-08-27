@@ -15,7 +15,7 @@ SECTION     .text
 ; Environment Values                             ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-TOTALSECTORCOUNT: dw 1024
+TOTALSECTORCOUNT: dw 1
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Bootloader Procedure                           ;
@@ -67,7 +67,8 @@ READ:       cmp  di, 0
             sub  di, 0x1
 
             ; BIOS service 2, read 1 sector
-            mov  ax, 0x0201
+            mov  ah, 0x02
+            mov  al, 0x1
 
             mov  ch, byte[TRACKNO]
             mov  cl, byte[SECTORNO]
