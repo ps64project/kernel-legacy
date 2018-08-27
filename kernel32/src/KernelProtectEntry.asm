@@ -48,54 +48,6 @@ PROTECTEDMODE:
     jmp dword 0x08: 0x10200
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Functions                                      ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-PRINTMESSAGE:
-    push ebp
-    mov ebp, esp
-    push esi
-    push edi
-    push eax
-    push ecx
-    push edx
-
-    mov eax, dword [ ebp + 12 ]
-    mov esi, 160
-    mul esi
-    mov edi, eax
-
-    mov eax, dword [ ebp + 8 ]
-    mov esi, 2
-    mul esi
-    add esi, eax
-
-    mov esi, dword [ ebp + 16 ]
-
-.MESSAGELOOP:
-    mov cl, byte [ esi ]
-
-    cmp cl, 0
-    je .MESSAGEEND
-
-    mov byte [ edi + 0xB8000 ], cl
-
-    add esi, 1
-    add edi, 2
-    jmp .MESSAGELOOP
-
-.MESSAGEEND:
-    pop edx
-    pop ecx
-    pop eax
-    pop edi
-    pop esi
-    pop ebp
-    ret
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Data                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
