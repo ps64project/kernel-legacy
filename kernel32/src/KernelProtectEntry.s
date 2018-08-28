@@ -16,6 +16,23 @@ START:
     mov ds, ax
     mov es, ax
 
+    ;try A20 gate activation via BIOS Interrupt (0x15)
+    mov ax, 0x2401
+    int     0x15
+
+    jc  .A20FAIL
+    jmp .A20SUCCESS
+
+.A20FAIL:
+    ;try A20 gate activation via System Control Port (0x92)
+    in al, 0x92  ; get a byte from 0x92
+    
+    or al, 0x02  ; set gate bit as 1 
+    and al, 0xFE ; prevent system reset
+
+    out 0x92, al ; set a byte to 0x92
+
+.A20SUCCESS:
     cli                  ; Prevent interrupt
     lgdt [GDTR]          ; Load GDT
 
@@ -29,7 +46,6 @@ START:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
 [BITS 32]
-
 PROTECTEDMODE:
     ; set Data Segment address
     mov ax, 0x10
@@ -44,7 +60,6 @@ PROTECTEDMODE:
     mov ebp, 0xFFFE
 
     ; Complete Protection Mode, Load Kernel
-
     jmp dword 0x08: 0x10200
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

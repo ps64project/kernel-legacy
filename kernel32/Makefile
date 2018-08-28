@@ -29,8 +29,8 @@ all: prepare pskrnl32
 prepare:
 	mkdir -p $(BUILD_TEMP)
 
-$(BUILD_TEMP)/KernelProtectEntry: $(BUILD_SRC)/KernelProtectEntry.asm
-	$(NASM32) -f elf32 -o $@ $<
+$(BUILD_TEMP)/KernelProtectEntry.bin: $(BUILD_SRC)/KernelProtectEntry.s
+	$(NASM32) -o $@ $<
 
 dep:
 	# Dependency
@@ -40,9 +40,9 @@ ExecuteInternalBuild: dep
 	make -C $(BUILD_TEMP) -f ../Makefile Kernel32.elf
 
 $(BUILD_TEMP)/Kernel32.elf.bin: ExecuteInternalBuild
-	$(OBJCOPY) $(BUILD_TEMP)/Kernel32.elf $@
+	$(OBJCOPY32) $(OBJCOPY32_FLAGS) $(BUILD_TEMP)/Kernel32.elf $@
 
-pskrnl32: $(BUILD_TEMP)/KernelProtectEntry $(BUILD_TEMP)/Kernel32.elf.bin
+pskrnl32: $(BUILD_TEMP)/KernelProtectEntry.bin $(BUILD_TEMP)/Kernel32.elf.bin
 	cat $^ > $@
 
 cleanup:
@@ -56,7 +56,7 @@ cleanup:
 #
 ##############################################
 
-CPPENTRYOBJ=KernelEntry32.o
+CPPENTRYOBJ=KernelStart.o
 CPPSRCFILES=$(wildcard ../$(BUILD_SRC)/*.cpp)
 ASMSRCFILES=$(wildcard ../$(BUILD_SRC)/*.asm)
 CPPOBJFILES=$(subst KernelEntry32.o, , $(notdir $(patsubst %.cpp, %.o,$(CPPSRCFILES))))
