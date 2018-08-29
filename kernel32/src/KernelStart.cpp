@@ -1,32 +1,39 @@
 // PS64 Kernel Start
 
 #include <Types.hpp>
+#include <Constants.hpp>
 
 const void* VGABUFFER    =  (const void*)  0xB8000;
 
-void KernelPrints          (const int, const int, const char*);
+void KernelPrints          (const int, const int, const char*, const BYTE = 0x07);
 bool KernelCheckMemorySize ();
 bool KernelInit64Area      ();
 
 void KernelStart() {
-    KernelPrints(0, 2, "PS64 Kernel Started...");
+    KernelPrints(0, 1, "PHILOSOPHER'S STONE :: DEV ALPHA, 0.1", CON_MAGENTA);
+    KernelPrints(0, 2, "=====================================");
 
-    KernelPrints(0, 3, "Minimum Memory Requirement Check...  [      ]");
+    KernelPrints(0, 3, "Minimum Memory Requirement Check.... [      ]");
     if (!KernelCheckMemorySize()) {
-        KernelPrints(38, 3, "FAILED");
+        KernelPrints(38, 3, "FAILED", CON_LIGHT_RED);
         KernelPrints(0, 4, "MEMORY FAILURE, System Halt!");
 
         while (true) ;
     }
-    KernelPrints(39, 3, "OKAY!");
+    KernelPrints(38, 3, " OKAY ", CON_LIGHT_GREEN);
 
     KernelPrints(0, 4, "IA-32e Kernel Area Initialization... [      ]");
     if (!KernelInit64Area()) {
-        KernelPrints(38, 4, "FAILED");
+        KernelPrints(38, 4, "FAILED", CON_LIGHT_RED);
         while (true) ;
     }
 
-    KernelPrints(39, 4, "OKAY!");
+    KernelPrints(38, 4, " OKAY ", CON_LIGHT_GREEN);
+
+    KernelPrints(0, 5, "IA-32e Page Table Initialization.... [      ]");
+    KernelPrints(38, 5, " OKAY ", CON_LIGHT_GREEN);
+
+    KernelPrints(0, 8, "ALL READY, PH64 READY TO GO!", _CONSOLE_ATTRIBUTE(CON_RED, CON_LIGHT_GREEN));
 
     while (true) ;
 }
@@ -34,13 +41,16 @@ void KernelStart() {
 void KernelPrints(
         const int xPos, 
         const int yPos, 
-        const char* str
+        const char* str,
+        const BYTE color 
      ) {
    CHARACTER* screen = (CHARACTER*) VGABUFFER;
 
    screen += (yPos * 80) + xPos;
-   for (int i = 0; str[ i ]; ++i )
+   for (int i = 0; str[ i ]; ++i ) {
        screen[ i ].Character = str[ i ];
+       screen[ i ].Attribute = color;
+   }
 }
 
 bool KernelCheckMemorySize() {

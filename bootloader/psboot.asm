@@ -96,8 +96,12 @@ READ:       cmp  di, 0
             jmp  READ
 
             
-LOAD:       push DONE
-            call TYPESTR
+LOAD:       push 0x00
+            push 0x00
+            push DONE
+            push 0x33
+            call PRINTSTR
+            add  sp, 7
 
             ; Start PS64
             jmp 0x1000:0x0000
@@ -222,7 +226,7 @@ ENDTYPE:    pop  dx
 ; Data                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-DONE:       db 'LOAD DONE, STARTING...', 0x00
+DONE:       db 'PSBOOT BOOTLOADER VER1.00, BY 0X00000FF', 0x00
 DISKERRMSG: db 'DISK INIT ERROR!', 0
 DISKREADERR:db 'DISK READ EEROR!', 0
 
