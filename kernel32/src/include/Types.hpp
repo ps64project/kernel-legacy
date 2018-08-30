@@ -20,7 +20,7 @@ typedef struct kCharacterStruct {
 
 #pragma pack( pop )
 
-typedef struct pageTableEntryStruct {
+struct _fPageTableEntryStruct {
     BYTE    P           : 1;
     BYTE    RW          : 1;
     BYTE    US          : 1;
@@ -33,6 +33,16 @@ typedef struct pageTableEntryStruct {
     WORD    Reserved_2  : 12 = 0;
     WORD    Avail2      : 11;
     BYTE    EXB         : 1;
-} PML4TENTRY, PDPTENTRY, PDENTRY, PTENTRY;
+};
+
+struct _dPageTableEntryStruct {
+    DWORD AttributeAndLowBase;
+    DWORD HighBaseAndEXB;
+};
+
+typedef union pageTableEntryStruct {
+    struct _fPageTableEntryStruct  byFields;
+    struct _dPageTableEntryStruct  byDwords;
+} PML4ENTRY, PDPENTRY, PDENTRY, PTENTRY;
 
 #endif
