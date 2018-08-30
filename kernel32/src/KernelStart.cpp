@@ -10,8 +10,10 @@ bool KernelCheckMemorySize ();
 bool KernelInit64Area      ();
 
 void KernelStart() {
-    KernelPrints(0, 1, "PHILOSOPHER'S STONE :: DEV ALPHA, 0.1", CON_MAGENTA);
-    KernelPrints(0, 2, "=====================================");
+    KernelPrints(0, 0, "PHILOSOPHER'S STONE :: DEV ALPHA, 0.1", CON_MAGENTA);
+    KernelPrints(0, 1, "=====================================");
+
+    KernelPrints(0, 2, "32Bit Protected Mode SUCCESS!!", CON_LIGHT_GREEN);
 
     KernelPrints(0, 3, "Minimum Memory Requirement Check.... [      ]");
     if (!KernelCheckMemorySize()) {
@@ -31,9 +33,9 @@ void KernelStart() {
     KernelPrints(38, 4, " OKAY ", CON_LIGHT_GREEN);
 
     KernelPrints(0, 5, "IA-32e Page Table Initialization.... [      ]");
-    KernelPrints(38, 5, " OKAY ", CON_LIGHT_GREEN);
+    KernelPrints(38, 5, "FAILED", CON_LIGHT_RED);
 
-    KernelPrints(0, 8, "ALL READY, PH64 READY TO GO!", _CONSOLE_ATTRIBUTE(CON_RED, CON_LIGHT_GREEN));
+    KernelPrints(0, 8, "SYSTEM FAILURE", _CONSOLE_ATTRIBUTE(CON_WHITE, CON_LIGHT_RED));
 
     while (true) ;
 }

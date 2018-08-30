@@ -19,7 +19,10 @@ const BYTE CON_PINK        = 0x0D;
 const BYTE CON_YELLOW      = 0x0E;
 const BYTE CON_WHITE       = 0x0F;
 
-constexpr BYTE _CONSOLE_ATTRIBUTE(BYTE foreground, BYTE background) {
+constexpr inline BYTE _CONSOLE_ATTRIBUTE(
+        const BYTE foreground, 
+        const BYTE background
+        ) noexcept {
     return (background << 4) + foreground;
 }
 
