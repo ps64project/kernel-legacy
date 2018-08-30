@@ -31,7 +31,7 @@ const DWORD KernelPrints(
         const char* str,
         const BYTE color 
      ) {
-    unsigned int i = 0; 
+    DWORD      i      = 0;
     CHARACTER* screen = (CHARACTER*) VGABUFFER;
     
     screen += (yPos * 80) + xPos;
