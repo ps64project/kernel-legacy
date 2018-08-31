@@ -7,9 +7,7 @@ using   DWORD   =   unsigned int;
 using   QWORD   =   unsigned long;
 using   BOOL    =   BYTE;
 
-const   BYTE    TRUE    =   1;
-const   BYTE    FALSE   =   0;
-const   BYTE    NULL    =   0;
+const   BYTE    NULL      =   0;
 
 #pragma pack( push, 1 )
 
@@ -20,29 +18,10 @@ typedef struct kCharacterStruct {
 
 #pragma pack( pop )
 
-struct _fPageTableEntryStruct {
-    BYTE    P           : 1;
-    BYTE    RW          : 1;
-    BYTE    US          : 1;
-    BYTE    PWT         : 1;
-    BYTE    PCD         : 1;
-    BYTE    A           : 1;
-    BYTE    Reserved_1  : 3;
-    BYTE    Avail       : 3;
-    DWORD   BaseAddress : 28;
-    WORD    Reserved_2  : 12 = 0;
-    WORD    Avail2      : 11;
-    BYTE    EXB         : 1;
-};
-
-struct _dPageTableEntryStruct {
-    DWORD AttributeAndLowBase;
-    DWORD HighBaseAndEXB;
-};
-
-typedef union pageTableEntryStruct {
-    struct _fPageTableEntryStruct  byFields;
-    struct _dPageTableEntryStruct  byDwords;
+typedef struct pageTableEntryStruct {
+    DWORD AttributeAndLowerBase;
+    DWORD UpperBaseAndEXB;
 } PML4ENTRY, PDPENTRY, PDENTRY, PTENTRY;
+
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
+// Textmode :: Text color attributes
 
 const BYTE CON_BLACK       = 0x00;
 const BYTE CON_BLUE        = 0x01;
@@ -23,7 +24,20 @@ constexpr inline BYTE _CONSOLE_ATTRIBUTE(
         const BYTE foreground, 
         const BYTE background
         ) noexcept {
-    return (background << 4) + foreground;
+    return (background << 4) | foreground;
 }
+
+// Page Entry :: Attributes 
+
+const FLAG PAGE_FLAGS_P     = 1;
+const FLAG PAGE_FLAGS_RW    = 1 << 1;
+const FLAG PAGE_FLAGS_US    = 1 << 2;
+const FLAG PAGE_FLAGS_PWT   = 1 << 3;
+const FLAG PAGE_FLAGS_PCD   = 1 << 4;
+const FLAG PAGE_FLAGS_A     = 1 << 5;
+const FLAG PAGE_FLAGS_D     = 1 << 6;
+const FLAG PAGE_FLAGS_PS    = 1 << 7;
+const FLAG PAGE_FLAGS_G     = 1 << 8;
+const FLAG PAGE_FLAGS_PAT   = 1 << 11;
 
 #endif
