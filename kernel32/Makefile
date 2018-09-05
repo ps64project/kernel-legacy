@@ -46,7 +46,7 @@ pskrnl32: $(BUILD_TEMP)/KernelProtectEntry.bin $(BUILD_TEMP)/Kernel32.elf.bin
 	cat $^ > $@
 
 cleanup:
-	rm -f *.bin
+	rm -f pskrnl32
 	rm -f $(BUILD_TEMP)/*
 
 

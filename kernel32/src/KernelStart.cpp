@@ -20,14 +20,15 @@ void KernelStart() {
     bool isMemoryEnough = KernelCheckMemorySize();
     KernelMessagePrint(0, 3, "Minimum Memory Requirement Check....", isMemoryEnough);
     if (!isMemoryEnough) {
-        KernelPrints(0, 4, "* Memory size check failed, PS64 requires 64MB or larger system memory.", CON_LIGHT_RED);
+        KernelPrints(0, 5, "* Memory size check failed, PS64 requires 64MB or larger system memory.", CON_LIGHT_RED);
+        KernelPrints(0, 6, "*** System STOP ::  ERROR_INSUFFICIENT_MEMORY", CON_LIGHT_RED);
         KernelStop();
     }
 
     KernelMessagePrint(0, 4, "IA-32e Kernel Area Initialization...", KernelInit64Area());
     KernelMessagePrint(0, 5, "IA-32e Page Table Initialization....", false);
 
-    KernelPrints(0, 8, "SYSTEM FAILURE", _CONSOLE_ATTRIBUTE(CON_WHITE, CON_LIGHT_RED));
+    KernelPrints(0, 7, "SYSTEM FAILURE", _CONSOLE_ATTRIBUTE(CON_WHITE, CON_LIGHT_RED));
     KernelStop();
 }
 
@@ -100,5 +101,6 @@ bool KernelInit64Area() {
 }
 
 void KernelStop() {
+
     while (true) ;
 }
