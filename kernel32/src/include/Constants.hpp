@@ -29,15 +29,15 @@ constexpr inline BYTE _CONSOLE_ATTRIBUTE(
 
 // Page Entry :: Attributes 
 
-const FLAG PAGE_FLAGS_P     = 1;
-const FLAG PAGE_FLAGS_RW    = 1 << 1;
-const FLAG PAGE_FLAGS_US    = 1 << 2;
-const FLAG PAGE_FLAGS_PWT   = 1 << 3;
-const FLAG PAGE_FLAGS_PCD   = 1 << 4;
-const FLAG PAGE_FLAGS_A     = 1 << 5;
-const FLAG PAGE_FLAGS_D     = 1 << 6;
-const FLAG PAGE_FLAGS_PS    = 1 << 7;
-const FLAG PAGE_FLAGS_G     = 1 << 8;
-const FLAG PAGE_FLAGS_PAT   = 1 << 11;
+const DWORD PAGE_FLAGS_P     = 1;
+const DWORD PAGE_FLAGS_RW    = 1 << 1;
+const DWORD PAGE_FLAGS_US    = 1 << 2;
+const DWORD PAGE_FLAGS_PWT   = 1 << 3;
+const DWORD PAGE_FLAGS_PCD   = 1 << 4;
+const DWORD PAGE_FLAGS_A     = 1 << 5;
+const DWORD PAGE_FLAGS_D     = 1 << 6;
+const DWORD PAGE_FLAGS_PS    = 1 << 7;
+const DWORD PAGE_FLAGS_G     = 1 << 8;
+const DWORD PAGE_FLAGS_PAT   = 1 << 11;
 
 #endif

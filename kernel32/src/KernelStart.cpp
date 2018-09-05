@@ -20,7 +20,7 @@ void KernelStart() {
     bool isMemoryEnough = KernelCheckMemorySize();
     KernelMessagePrint(0, 3, "Minimum Memory Requirement Check....", isMemoryEnough);
     if (!isMemoryEnough) {
-        KernelPrints(0, 4, "Memory size check failed, PS64 requires 64MB or larger system memory.", CON_LIGHT_RED);
+        KernelPrints(0, 4, "* Memory size check failed, PS64 requires 64MB or larger system memory.", CON_LIGHT_RED);
         KernelStop();
     }
 
