@@ -46,7 +46,7 @@ DWORD KernelPrints(
         screen[ i ].Attribute = color;
     }
     
-    return i;
+    return i + 1;
 }
 
 void KernelMessagePrint (
