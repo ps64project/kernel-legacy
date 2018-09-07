@@ -18,10 +18,5 @@ typedef struct kCharacterStruct {
 
 #pragma pack( pop )
 
-typedef struct pageTableEntryStruct {
-    DWORD AttributeAndLowerBase;
-    DWORD UpperBaseAndEXB;
-} PML4ENTRY, PDPENTRY, PDENTRY, PTENTRY;
-
 
 #endif
