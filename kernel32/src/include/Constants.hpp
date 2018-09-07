@@ -1,7 +1,6 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
-// Textmode :: Text color attributes
 
 constexpr BYTE CON_BLACK       = 0x00;
 constexpr BYTE CON_BLUE        = 0x01;
