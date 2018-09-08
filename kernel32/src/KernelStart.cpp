@@ -2,6 +2,7 @@
 
 #include <Types.hpp>
 #include <Constants.hpp>
+#include <Paging.hpp>
 
 const void* VGABUFFER    =  (const void*)  0xB8000;
       
@@ -26,10 +27,12 @@ void KernelStart() {
     }
 
     KernelMessagePrint(0, 4, "IA-32e Kernel Area Initialization...", KernelInit64Area());
-    KernelMessagePrint(0, 5, "IA-32e Page Table Initialization....", false);
+    
+    KernelInitializePageTables();
+    KernelMessagePrint(0, 5, "IA-32e Page Table Initialization....", true);
 
-    KernelPrints(0, 7, "SYSTEM FAILURE", _CONSOLE_ATTRIBUTE(CON_WHITE, CON_LIGHT_RED));
     KernelStop();
+
 }
 
 DWORD KernelPrints(
