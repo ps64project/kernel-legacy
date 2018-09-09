@@ -60,7 +60,7 @@ PROTECTEDMODE:
     mov ebp, 0xFFFE
 
     ; Complete Protection Mode, Load Kernel
-    jmp dword 0x08: 0x10200
+    jmp dword 0x18: 0x10200
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Data                                           ;

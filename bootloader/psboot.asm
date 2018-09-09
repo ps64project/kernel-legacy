@@ -15,7 +15,7 @@ SECTION     .text
 ; Environment Values                             ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-TOTALSECTORCOUNT: dw 10
+TOTALSECTORCOUNT: dw 15
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Bootloader Procedure                           ;
