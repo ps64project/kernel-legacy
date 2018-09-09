@@ -3,7 +3,7 @@
 #include <Types.hpp>
 #include <Constants.hpp>
 #include <Paging.hpp>
-#include <CpuID.hpp>
+#include <ModeSwitch.hpp>
 
 const void* VGABUFFER    =  (const void*)  0xB8000;
       
@@ -35,6 +35,9 @@ void KernelStart() {
 
     KernelPrints(0, 6, "[ Processor Information ]");
     KernelCheckProcessor();
+
+    KernelPrints(0, 10, "Switching to 64bit mode...", CON_LIGHT_GREEN);
+    // KernelSwitch64Bit();
 
     KernelStop();
 }
