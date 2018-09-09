@@ -2,22 +2,22 @@
 #define __CONSTANTS_H__
 
 
-constexpr BYTE CON_BLACK       = 0x00;
-constexpr BYTE CON_BLUE        = 0x01;
-constexpr BYTE CON_GREEN       = 0x02;
-constexpr BYTE CON_CYAN        = 0x03;
-constexpr BYTE CON_RED         = 0x04;
-constexpr BYTE CON_MAGENTA     = 0x05;
-constexpr BYTE CON_BROWN       = 0x06;
-constexpr BYTE CON_LIGHT_GRAY  = 0x07;
-constexpr BYTE CON_DRAK_GRAY   = 0x08;
-constexpr BYTE CON_LIGHT_BLUE  = 0x09;
-constexpr BYTE CON_LIGHT_GREEN = 0x0A;
-constexpr BYTE CON_LIGHT_CYAN  = 0x0B;
-constexpr BYTE CON_LIGHT_RED   = 0x0C;
-constexpr BYTE CON_PINK        = 0x0D;
-constexpr BYTE CON_YELLOW      = 0x0E;
-constexpr BYTE CON_WHITE       = 0x0F;
+#define   CON_BLACK       0x00
+#define   CON_BLUE        0x01
+#define   CON_GREEN       0x02
+#define   CON_CYAN        0x03
+#define   CON_RED         0x04
+#define   CON_MAGENTA     0x05
+#define   CON_BROWN       0x06
+#define   CON_LIGHT_GRAY  0x07
+#define   CON_DRAK_GRAY   0x08
+#define   CON_LIGHT_BLUE  0x09
+#define   CON_LIGHT_GREEN 0x0A
+#define   CON_LIGHT_CYAN  0x0B
+#define   CON_LIGHT_RED   0x0C
+#define   CON_PINK        0x0D
+#define   CON_YELLOW      0x0E
+#define   CON_WHITE       0x0F
 
 constexpr inline BYTE _CONSOLE_ATTRIBUTE(
         const BYTE foreground, 

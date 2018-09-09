@@ -1,15 +1,17 @@
-// PS64 Kernel Start
+// PS64 32bit Protected Mode Kernel Start
 
 #include <Types.hpp>
 #include <Constants.hpp>
 #include <Paging.hpp>
+#include <CpuID.hpp>
 
 const void* VGABUFFER    =  (const void*)  0xB8000;
       
 DWORD KernelPrints          (const int, const int, const char*, const BYTE = 0x07);
-void  KernelMessagePrint    (const int, const int, const char*, const bool);
+void  KernelDiagMsgPrint    (const int, const int, const char*, const bool);
 bool  KernelCheckMemorySize ();
 bool  KernelInit64Area      ();
+void  KernelCheckProcessor  ();
 void  KernelStop            ();
 
 void KernelStart() {
@@ -19,20 +21,22 @@ void KernelStart() {
     KernelPrints(0, 2, "32Bit Protected Mode SUCCESS!!", CON_LIGHT_GREEN);
 
     bool isMemoryEnough = KernelCheckMemorySize();
-    KernelMessagePrint(0, 3, "Minimum Memory Requirement Check....", isMemoryEnough);
+    KernelDiagMsgPrint(0, 3, "Minimum Memory Requirement Check....", isMemoryEnough);
     if (!isMemoryEnough) {
         KernelPrints(0, 5, "* Memory size check failed, PS64 requires 64MB or larger system memory.", CON_LIGHT_RED);
         KernelPrints(0, 6, "*** System STOP ::  ERROR_INSUFFICIENT_MEMORY", CON_LIGHT_RED);
         KernelStop();
     }
 
-    KernelMessagePrint(0, 4, "IA-32e Kernel Area Initialization...", KernelInit64Area());
+    KernelDiagMsgPrint(0, 4, "IA-32e Kernel Area Initialization...", KernelInit64Area());
     
     KernelInitializePageTables();
-    KernelMessagePrint(0, 5, "IA-32e Page Table Initialization....", true);
+    KernelDiagMsgPrint(0, 5, "IA-32e Page Table Initialization....", true);
+
+    KernelPrints(0, 6, "[ Processor Information ]");
+    KernelCheckProcessor();
 
     KernelStop();
-
 }
 
 DWORD KernelPrints(
@@ -53,7 +57,7 @@ DWORD KernelPrints(
     return i + 1;
 }
 
-void KernelMessagePrint (
+void KernelDiagMsgPrint (
         const int    xPos,
         const int    yPos,
         const char*  msg,
@@ -103,7 +107,29 @@ bool KernelInit64Area() {
     return true;
 }
 
-void KernelStop() {
+void KernelCheckProcessor() {
+    char  cpuIDStr[13] = { 0, };
+    DWORD cpuIDEAX     = 0;
+    DWORD cpuIDEBX     = 0;
+    DWORD cpuIDECX     = 0;
+    DWORD cpuIDEDX     = 0;
 
+    KernelReadCPUID(CPUID_READ, &cpuIDEAX,
+            (DWORD*)cpuIDStr, (DWORD*)(cpuIDStr + 8), (DWORD*)(cpuIDStr + 4));
+
+    KernelPrints(0, 7, "* Vendor: ");
+    KernelPrints(10, 7, cpuIDStr);
+
+    KernelReadCPUID(CPUID_READ_EXTEND, &cpuIDEAX, &cpuIDEBX, &cpuIDECX, &cpuIDEDX);
+    
+    bool compat = cpuIDEDX & (1 << 29);
+    KernelDiagMsgPrint(0, 8, "* IA-32e Compatibility....", compat);
+    if (!compat) {
+        KernelPrints(0, 9, "*** CPU Compatibility Check Failure, SYSTEM HALT!", CON_LIGHT_RED);
+        KernelStop();
+    }
+}
+
+void KernelStop() {
     while (true) ;
 }
