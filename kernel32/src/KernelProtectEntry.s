@@ -39,7 +39,7 @@ START:
     mov  eax, 0x4000003B ; PG=0, CD=1, NW=0, AM=0, WP=0, NE=1, ET=1, TS=1, EM=0, MP=1, PE=1
     mov  cr0, eax        ; SET CR0, Enable Protection Mode
 
-    jmp dword 0x08: ( PROTECTEDMODE - $$ + 0x10000 )
+    jmp dword 0x18: ( PROTECTEDMODE - $$ + 0x10000 )
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; Disable Paging, Disable Cache, Internal FPU, Disable Align Check
     ; Enable 32-bit Protected Mode
