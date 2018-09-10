@@ -16,7 +16,14 @@ pskrnl32:
 
 	@echo \* pm kernel preparation complete...
 
-Disk.img: psboot pskrnl32
+pskrnl64:
+	@echo \* Begin PS64 IA-32e mode kernel build....
+
+	make -C kernel64
+
+	@echo \* IA-32e kernel preparation complete...
+
+Disk.img: psboot pskrnl32 pskrnl64
 	@echo \* Begin image creation...
 
 	cat bootloader/psboot kernel32/pskrnl32 > Disk.img
@@ -25,6 +32,7 @@ Disk.img: psboot pskrnl32
 
 cleanup:
 	make -C kernel32 cleanup
+	make -C kernel64 cleanup
 
 	rm -f bootloader/psboot
 	rm -f Disk.img

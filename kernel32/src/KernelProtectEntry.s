@@ -47,6 +47,7 @@ START:
     
 [BITS 32]
 PROTECTEDMODE:
+
     ; set Data Segment address
     mov ax, 0x20
     mov ds, ax
