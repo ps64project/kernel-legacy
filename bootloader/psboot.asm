@@ -97,14 +97,7 @@ READ:       cmp  di, 0
             jmp  READ
 
             
-LOAD:       push 0x00
-            push 0x00
-            push DONE
-            push 0x33
-            call PRINTSTR
-            add  sp, 7
-
-            ; Start PS64
+LOAD:       ; Start PS64 Protected Mode Kernel
             jmp 0x1000:0x0000
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -187,47 +180,11 @@ CLEAR:      pop  dx
             pop  bp
             ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; TYPESTR(msg)                     ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-TYPESTR:    push bp
-            mov  bp, sp
-
-            push es
-            push si
-            push di
-            push ax
-            push cx
-            push dx
-
-            mov ah, 0x0E
-
-            mov si, DONE
-TYPELOOP:   mov cl, byte[si]
-            cmp cl, 0
-            je ENDTYPE
-
-            mov al, cl
-            int 0x10
-            add si, 1
-            jmp TYPELOOP
-
-ENDTYPE:    pop  dx
-            pop  cx
-            pop  ax
-            pop  di
-            pop  si
-            pop  es
-            pop  bp
-            ret
-
         
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Data                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-DONE:       db 'PSBOOT BOOTLOADER VER1.00, BY 0X00000FF', 0x00
 DISKERRMSG: db 'DISK INIT ERROR!', 0
 DISKREADERR:db 'DISK READ EEROR!', 0
 
