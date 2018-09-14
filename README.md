@@ -10,4 +10,4 @@ These technologies are exists already, but I decided to implement by myself.
  2. Non Executable Stack
  3. Stack Protector
  ---
- 4. \<Most Important\> File System for Access Control - PSSFS (PS64 Secure File System) Implemenetation
+ 4. \<Most Important\> File System for Access Control - PSSFS (PS64 Secure File System) Implementation

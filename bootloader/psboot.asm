@@ -15,6 +15,7 @@ SECTION     .text
 ; Environment Values                             ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+KERNEL32SECTORS : dw 3
 TOTALSECTORCOUNT: dw 15
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
