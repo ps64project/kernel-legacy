@@ -13,6 +13,6 @@ These technologies are already exists, but I decided to implement by myself.
  4. \<Most Important\> File System for Access Control - PSSFS (PS64 Secure File System) Implementation
 
  ## Doing Everything By Myself
- Collaborators were add at the 41th commit, so I cloned this project to try doing everything by myself.
+ Collaborators are joined at the 41th commit, so I cloned this project to try doing everything by myself.
 
  If you want to see source code of it, Please refer [here](https://github.com/0x00000FF/philosophers-stone-self).
