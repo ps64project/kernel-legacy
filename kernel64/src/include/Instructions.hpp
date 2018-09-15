@@ -1,12 +1,15 @@
 #ifndef __INSTRUCTIONS_HPP__
 #define __INSTRUCTIONS_HPP__
 
-template <typename T>
-inline void __x86_out(const WORD port, const T val) {
-    asm(
-        "out %0, %1" : :
-        "r" (port), "r" (val)
+inline void __x86_out_b(const WORD port, const BYTE val) {
+/*
+    __asm__ __volatile__ (
+        "mov %1, %%al \n\t"
+        "mov %0, %%dx \n\t"
+        "out %%dx, %%ax" : :
+        "n" (port), "n" (val)
     );
+*/
 }
 
 

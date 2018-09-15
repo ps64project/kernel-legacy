@@ -4,7 +4,7 @@
 using   BYTE    =   unsigned char;
 using   WORD    =   unsigned short;
 using   DWORD   =   unsigned int;
-using   QWORD   =   unsigned long;
+using   QWORD   =   unsigned long long;
 using   BOOL    =   BYTE;
 
 const   BYTE    NULL      =   0;

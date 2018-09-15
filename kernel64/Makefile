@@ -37,10 +37,10 @@ ExecuteInternalBuild: dep
 	make -C $(BUILD_TEMP) -f ../Makefile Kernel64.elf
 
 $(BUILD_TEMP)/Kernel64.elf.bin: ExecuteInternalBuild
-	$(OBJCOPY32) $(OBJCOPY32_FLAGS) $(BUILD_TEMP)/Kernel64.elf $@
+	$(OBJCOPY64) $(OBJCOPY64_FLAGS) $(BUILD_TEMP)/Kernel64.elf $@
 
 pskrnl64: $(BUILD_TEMP)/Kernel64.elf.bin
-	mv $@ $<
+	mv $< $@
 
 cleanup:
 	rm -f pskrnl64

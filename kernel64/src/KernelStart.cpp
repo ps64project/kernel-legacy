@@ -1,6 +1,6 @@
 #include <Types.hpp>
-#include <Constants.hpp>
-#include <Terminal.hpp>
+#include <Instructions.hpp>
+#include <Console.hpp>
 
 void KernelStop();
 
