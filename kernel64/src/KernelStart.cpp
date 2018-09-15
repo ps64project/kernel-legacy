@@ -5,7 +5,7 @@
 void KernelStop();
 
 void KernelStart() {
-
+    KernelConsolePrint("Hello There! We did it!");
     KernelStop();
 
 }

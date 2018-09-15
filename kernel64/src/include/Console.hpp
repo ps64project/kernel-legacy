@@ -59,24 +59,29 @@ void KernelConsoleClear() {
     KernelConsoleApplyBuffer();
 }
 
-void KernelConsoleScroll (const BYTE lines = 0) {
+void KernelConsoleScroll () {
+    for (unsigned i = 0; i < 480; ++i) {
+        *( (QWORD*) (KernelGraphicBuffer + i) ) = *( (QWORD*) (KernelGraphicBuffer + 20 + i) );
+    }
 
+    for (unsigned i = 480; i < 500; ++i) {
+        *( (QWORD*) (KernelGraphicBuffer + i) ) = 0;
+    }
 }
 
 void KernelConsolePrint (const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    auto graphic    = ( CHARACTER ** ) KernelGraphicBuffer;
     static BYTE ln  = 0, 
                 col = 0;
 
     unsigned pos = ln * VGA_WIDTH + col;
 
     for (unsigned i = pos; str[i - pos]; ++i) {
-        if (ln >= VGA_HEIGHT || pos > 4000) {
+        if (ln >= VGA_HEIGHT || pos > VGA_ADDR_MAX) {
             KernelConsoleScroll();
             ln = VGA_HEIGHT;
         }
 
-        *((WORD *) (graphic[ln] + col)) = _CONSOLE_CHAR( str[ i-pos ], attribute);
+        *((WORD *) (KernelGraphicBuffer[ln] + col)) = _CONSOLE_CHAR( str[ i-pos ], attribute);
         ++col;
 
         if (col >= VGA_WIDTH) {

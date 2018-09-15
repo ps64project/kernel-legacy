@@ -2,7 +2,7 @@
 
 SECTION .text
 
-extern KernelStart
+extern _Z11KernelStartv
 
 START:
     mov ax, 0x10
@@ -15,6 +15,6 @@ START:
     mov rsp, 0x6FFF8
     mov rbp, 0x6FFF8
 
-    call KernelStart
+    call _Z11KernelStartv
 
     jmp $
