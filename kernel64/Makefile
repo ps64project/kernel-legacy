@@ -53,10 +53,9 @@ cleanup:
 #
 ##############################################
 
-ENTRYSRC=../$(SOURCEDIRECTORY)/KernelEntry.s
+ENTRYSRC=../$(BUILD_SRC)/KernelEntry.s
 ENTRYOBJ=KernelEntry64.o
 
-CPPENTRYOBJ=KernelStart.o
 CPPSRCFILES=$(wildcard ../$(BUILD_SRC)/*.cpp)
 ASMSRCFILES=$(wildcard ../$(BUILD_SRC)/*.asm)
 CPPOBJFILES=$(subst KernelEntry64.o, , $(notdir $(patsubst %.cpp, %.o,$(CPPSRCFILES))))
@@ -74,7 +73,7 @@ $(ENTRYOBJ): $(ENTRYSRC)
 InternalDependency:
 	$(GCC64) $(GCC64_FLAGS) -MM $(CPPSRCFILES) > Dependency.dep
 
-Kernel64.elf: $(CPPENTRYOBJ) $(CPPOBJFILES) $(ASMOBJFILES)
+Kernel64.elf: $(ENTRYOBJ) $(CPPOBJFILES) $(ASMOBJFILES)
 	$(LD64) $(LD64_FLAGS) -o $@ $^
 
 ifeq (Dependency.dep, $(wildcard Dependency.dep))
