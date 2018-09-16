@@ -23,12 +23,15 @@ pskrnl64:
 
 	@echo \* IA-32e kernel preparation complete...
 
-Disk.img: psboot pskrnl32 pskrnl64
+Disk.img: psboot pskrnl32 pskrnl64 imgcreator
 	@echo \* Begin image creation...
 
-	cat bootloader/psboot kernel32/pskrnl32 > Disk.img
+	./imagecreator bootloader/psboot kernel32/pskrnl32 kernel64/pskrnl64
 
 	@echo \* image creation done!
+
+imagecreator:
+	g++ --std=c++2a -o imagecreator imgcreator/ImageCreator.cpp
 
 cleanup:
 	make -C kernel32 cleanup
