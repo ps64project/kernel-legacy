@@ -36,8 +36,11 @@ void KernelStart() {
     KernelPrints(0, 6, "[ Processor Information ]");
     KernelCheckProcessor();
 
+    KernelPrints(0, 10, "Preparing 64bit kernel...", CON_LIGHT_GREEN);
+    CopyKernel64();
+
     KernelPrints(0, 10, "Switching to 64bit mode...", CON_LIGHT_GREEN);
-    // KernelSwitch64Bit();
+    KernelSwitch64Bit();
 
     KernelStop();
 }
