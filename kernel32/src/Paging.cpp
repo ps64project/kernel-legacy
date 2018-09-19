@@ -15,7 +15,7 @@ void KernelInitializePageTables ( void ) {
 
     PDPTEntry = ( PDPTENTRY* ) 0x101000;
     for ( unsigned i = 0; i < 64; ++i ) {
-        KernelSetPageEntryData( PDPTEntry[i], 0, 0, 0, 0);
+        KernelSetPageEntryData( PDPTEntry[i], 0, 0x102000 + i * PAGE_TABLESIZE, PAGE_FLAGS_DEFAULT, 0);
     }
 
     PDEntry = ( PDENTRY* ) 0x102000;

@@ -5,7 +5,9 @@
 void KernelStop();
 
 void KernelStart() {
-    KernelConsolePrint("Hello There! We did it!");
+    KernelConsoleClear();
+    KernelConsolePrint("Hello PS64!");
+
     KernelStop();
 
 }

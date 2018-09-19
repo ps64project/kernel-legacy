@@ -5,6 +5,8 @@ SECTION .text
 extern _Z11KernelStartv
 
 START:
+    jmp $
+
     mov ax, 0x10
     mov ds, ax
     mov es, ax
