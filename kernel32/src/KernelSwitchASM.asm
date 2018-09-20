@@ -62,7 +62,7 @@ KernelSwitch64Bit:
     mov cr0, eax
 
 
-    jmp 0x8:0x200000 ; jump into 64bit
+    jmp 0x200000 ; jump into 64bit
     
     jmp $
 

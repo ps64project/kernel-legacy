@@ -24,6 +24,7 @@
 #define   VGA_WIDTH       80
 #define   VGA_ADDR_MAX    4000
 
+#define   CONSOLE_TRAVERSE                 for(WORD i = 0; i < VGA_ADDR_MAX; ++i)
 #define   CONSOLE_TRAVERSE_ALL_QWORD       for(WORD i = 0; i < 500; ++i)
 
 constexpr inline BYTE _CONSOLE_ATTRIBUTE(
@@ -43,17 +44,17 @@ constexpr inline WORD _CONSOLE_CHAR(
 static CHARACTER KernelGraphicBuffer[80][25];
 
 static void KernelConsoleApplyBuffer() {
-    auto graphic = (QWORD *) CON_GRAPHIC_MEM,
-         buffer  = (QWORD *) KernelGraphicBuffer;
+    auto graphic = (BYTE *) CON_GRAPHIC_MEM,
+         buffer  = (BYTE *) KernelGraphicBuffer;
 
-    CONSOLE_TRAVERSE_ALL_QWORD {
+    CONSOLE_TRAVERSE {
         *( graphic + i ) = *( buffer + i );
     }
 }
 
 void KernelConsoleClear() {
     CONSOLE_TRAVERSE_ALL_QWORD {
-        *( (QWORD*) (KernelGraphicBuffer + 1) ) = 0;
+        *( (QWORD*) (0xB8000 + i) ) = 0x00000000;
     }
 
     KernelConsoleApplyBuffer();

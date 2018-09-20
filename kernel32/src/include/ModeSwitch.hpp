@@ -12,6 +12,6 @@ void KernelReadCPUID (DWORD cpuidEax, DWORD* eax, DWORD* ebx, DWORD* ecx, DWORD*
 extern "C"
 void KernelSwitch64Bit( void );
 
-void CopyKernel64( void );
+void CopyAndSwitchIA32e( void );
 
 #endif
