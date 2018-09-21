@@ -1,7 +1,7 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
-#define   CON_GRAPHIC_MEM 0xB8000
+#define   CON_GRAPHIC_MEM (volatile CHARACTER*) 0xB8000
 
 #define   CON_BLACK       0x00
 #define   CON_BLUE        0x01
@@ -38,65 +38,32 @@ constexpr inline WORD _CONSOLE_CHAR(
         const BYTE character,
         const BYTE attribute
         ) noexcept {
-    return character << 8 | attribute;
+    return (attribute << 8) | character;
 }
 
-static CHARACTER KernelGraphicBuffer[80][25];
+static CHARACTER KernelConsoleBuffer[25][80];
+static volatile CHARACTER* __pos = 0;
 
-static void KernelConsoleApplyBuffer() {
-    auto graphic = (BYTE *) CON_GRAPHIC_MEM,
-         buffer  = (BYTE *) KernelGraphicBuffer;
-
-    CONSOLE_TRAVERSE {
-        *( graphic + i ) = *( buffer + i );
-    }
-}
 
 void KernelConsoleClear() {
-    CONSOLE_TRAVERSE_ALL_QWORD {
-        *( (QWORD*) (0xB8000 + i) ) = 0x00000000;
+    auto graphic = CON_GRAPHIC_MEM;
+
+    CONSOLE_TRAVERSE {
+        *((WORD *)(graphic + i)) = 0; 
     }
 
-    KernelConsoleApplyBuffer();
+    __pos = 0;
 }
 
-void KernelConsoleScroll () {
-    for (unsigned i = 0; i < 480; ++i) {
-        *( (QWORD*) (KernelGraphicBuffer + i) ) = *( (QWORD*) (KernelGraphicBuffer + 20 + i) );
+void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
+    auto graphic = CON_GRAPHIC_MEM + __pos;
+   
+
+    for (unsigned i = 0; i < 80; ++i) {
+        *( ( WORD * ) graphic ) = _CONSOLE_CHAR('a', CON_LIGHT_GREEN);
+
+        ++graphic;
     }
-
-    for (unsigned i = 480; i < 500; ++i) {
-        *( (QWORD*) (KernelGraphicBuffer + i) ) = 0;
-    }
-}
-
-void KernelConsolePrint (const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    static BYTE ln  = 0, 
-                col = 0;
-
-    unsigned pos = ln * VGA_WIDTH + col;
-
-    for (unsigned i = pos; str[i - pos]; ++i) {
-        if (ln >= VGA_HEIGHT || pos > VGA_ADDR_MAX) {
-            KernelConsoleScroll();
-            ln = VGA_HEIGHT;
-        }
-
-        *((WORD *) (KernelGraphicBuffer[ln] + col)) = _CONSOLE_CHAR( str[ i-pos ], attribute);
-        ++col;
-
-        if (col >= VGA_WIDTH) {
-            ln++;
-            col = 0;
-        }
-    }
-
-    KernelConsoleApplyBuffer();
-
-    //__x86_out_b(0x3D4, 0x0F);
-    //__x86_out_b(0x3D5, (BYTE) (pos & 0xFF));
-    //__x86_out_b(0x3D4, 0x0E);
-    //__x86_out_b(0x3D5, (BYTE) ((pos >> 8) & 0xFF));
 }
 
 #endif
