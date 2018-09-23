@@ -43,36 +43,7 @@ constexpr inline WORD _CONSOLE_CHAR(
 
 static DWORD __pos = 960;
 
-void KernelConsoleClear() {
-    auto graphic = (WORD*)CON_GRAPHIC_MEM;
-
-    CONSOLE_TRAVERSE {
-        *(graphic) = 0; 
-        ++graphic;
-    }
-
-    __pos = 0;
-}
-
-void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    auto graphic = ( WORD* ) (CON_GRAPHIC_MEM + __pos); 
-    
-    for (unsigned i = 0; str[i]; ++i) {
-        if (str[i] == '\n') {
-            __pos += 80 - (__pos % 80);
-            continue;
-        }
-        
-        if (__pos > VGA_ADDR_MAX) {
-            __pos = 0;
-        }
-
-        *graphic = _CONSOLE_CHAR(str[i], attribute);
-        
-        ++graphic;
-        ++__pos;
-    }
-}
-
+void KernelConsoleClear();
+void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY);
 #endif
 

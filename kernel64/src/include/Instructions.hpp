@@ -3,7 +3,7 @@
 
 #include <Types.hpp>
 
-BYTE KernelPortInByte(BYTE portNo);
-void KernelPortOutByte(BYTE portNo, BYTE data);
+BYTE KernelPortInByte(QWORD portNo);
+void KernelPortOutByte(QWORD portNo, QWORD data);
 
 #endif

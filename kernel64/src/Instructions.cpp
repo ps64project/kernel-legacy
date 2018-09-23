@@ -1,22 +1,25 @@
 #include <Instructions.hpp>
 
-BYTE KernelPortInByte (BYTE portNo) {
-    BYTE result = 0x00;
+BYTE KernelPortInByte (QWORD portNo) {
+    QWORD result = 0x00;
     
     __asm__ __volatile__ (
-        "mov %0, %%rdx   \n\t"
-        "mov 0, %%rax    \n\t"
-        "in %%dx, %%al"
+        "movq %0, %%rdx   \n\t"
+        "movq $0, %%rax    \n\t"
+        "inb %%dx, %%al  \n\t"
+        "movb %%al, %1"
         : "=g" (result) 
         : "g" (portNo)
     );
+
+    return (BYTE) result;
 }
 
-void KernelPortOutByte (BYTE portNo, BYTE data) {
+void KernelPortOutByte (QWORD portNo, QWORD data) {
     __asm__ __volatile__ (
-        "mov %0, %%rdx  \n\t"
-        "mov %1, %%rax  \n\t"
-        "out %%al, %%dx \n\t"
+        "movq %0, %%rdx  \n\t"
+        "movq %1, %%rax  \n\t"
+        "outb %%al, %%dx \n\t"
         : :
         "g" (portNo), "g" (data)
     );
