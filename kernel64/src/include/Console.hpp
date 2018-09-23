@@ -1,7 +1,7 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
-#define   CON_GRAPHIC_MEM (volatile CHARACTER*) 0xB8000
+#define   CON_GRAPHIC_MEM 0xB8000
 
 #define   CON_BLACK       0x00
 #define   CON_BLUE        0x01
@@ -22,7 +22,7 @@
 
 #define   VGA_HEIGHT      25
 #define   VGA_WIDTH       80
-#define   VGA_ADDR_MAX    4000
+#define   VGA_ADDR_MAX    2000
 
 #define   CONSOLE_TRAVERSE                 for(WORD i = 0; i < VGA_ADDR_MAX; ++i)
 #define   CONSOLE_TRAVERSE_ALL_QWORD       for(WORD i = 0; i < 500; ++i)
@@ -42,7 +42,7 @@ constexpr inline WORD _CONSOLE_CHAR(
 }
 
 static CHARACTER KernelConsoleBuffer[25][80];
-static volatile CHARACTER* __pos = 0;
+static QWORD __pos = 0;
 
 
 void KernelConsoleClear() {
@@ -56,11 +56,11 @@ void KernelConsoleClear() {
 }
 
 void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    auto graphic = CON_GRAPHIC_MEM + __pos;
+    auto graphic = (volatile CHARACTER*) (CON_GRAPHIC_MEM + __pos);
    
 
-    for (unsigned i = 0; i < 80; ++i) {
-        *( ( WORD * ) graphic ) = _CONSOLE_CHAR('a', CON_LIGHT_GREEN);
+    for (unsigned i = 0; str[i]; ++i) {
+        *( ( WORD * ) graphic ) = _CONSOLE_CHAR(str[i], CON_LIGHT_GREEN);
 
         ++graphic;
     }
