@@ -41,8 +41,6 @@ constexpr inline WORD _CONSOLE_CHAR(
     return (attribute << 8) | character;
 }
 
-static DWORD __pos = 960;
-
 void KernelConsoleClear();
 void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY);
 #endif
