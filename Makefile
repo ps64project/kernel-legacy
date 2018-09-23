@@ -1,6 +1,6 @@
 # PS64 Build Makefile
 
-all: psboot pskrnl32 Disk.img
+all: imagecreator psboot pskrnl32 Disk.img
 
 psboot:
 	@echo \* Begin psboot bootloader assemble...
@@ -31,7 +31,9 @@ Disk.img: psboot pskrnl32 pskrnl64 imgcreator
 	@echo \* image creation done!
 
 imagecreator:
+	@echo \* Building ImageCreator...
 	g++ --std=c++2a -o imagecreator imgcreator/ImageCreator.cpp
+	@echo \* ImageCreator is created!
 
 cleanup:
 	make -C kernel32 cleanup
@@ -39,3 +41,4 @@ cleanup:
 
 	rm -f bootloader/psboot
 	rm -f Disk.img
+	rm imagecreator
