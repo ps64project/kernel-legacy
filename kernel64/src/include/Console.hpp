@@ -42,25 +42,24 @@ constexpr inline WORD _CONSOLE_CHAR(
 }
 
 static CHARACTER KernelConsoleBuffer[25][80];
-static QWORD __pos = 0;
-
+static DWORD __pos = 1760;
 
 void KernelConsoleClear() {
-    auto graphic = CON_GRAPHIC_MEM;
+    auto graphic = (WORD*)CON_GRAPHIC_MEM;
 
     CONSOLE_TRAVERSE {
-        *((WORD *)(graphic + i)) = 0; 
+        *(graphic) = 0; 
+        ++graphic;
     }
 
     __pos = 0;
 }
 
 void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    auto graphic = (volatile CHARACTER*) (CON_GRAPHIC_MEM + __pos);
-   
+    auto graphic = (volatile CHARACTER*) (CON_GRAPHIC_MEM + __pos); 
 
     for (unsigned i = 0; str[i]; ++i) {
-        *( ( WORD * ) graphic ) = _CONSOLE_CHAR(str[i], CON_LIGHT_GREEN);
+        *( ( WORD * ) graphic ) = _CONSOLE_CHAR(str[i], attribute);
 
         ++graphic;
     }

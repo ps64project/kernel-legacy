@@ -10,7 +10,7 @@ BUILD_TEMP=__build
 BUILD_SRC=src
 
 GCC64=gcc
-GCC64_FLAGS=--std=c++2a -m64 -c -ffreestanding -fdata-sections -ffunction-sections -fno-stack-protector -fno-threadsafe-statics -nostdlib -O0 -I../$(BUILD_SRC)/include -Wall -Wextra -Wpedantic -Wl,--gc-sections
+GCC64_FLAGS=--std=c++2a -m64 -c -g -ffreestanding -fdata-sections -ffunction-sections -fno-stack-protector -fno-threadsafe-statics -nostdlib -O0 -I../$(BUILD_SRC)/include -Wall -Wextra -Wpedantic -Wl,--gc-sections
 
 LD64=ld
 LD64_FLAGS=-melf_x86_64 -T ../../ldscript/x86_64.x -nostdlib -e _Z11KernelStartv -Ttext 0x200000
