@@ -3,7 +3,7 @@
 
 #include <Types.hpp>
 
-void KernelPortInByte(BYTE portNo);
+BYTE KernelPortInByte(BYTE portNo);
 void KernelPortOutByte(BYTE portNo, BYTE data);
 
 #endif

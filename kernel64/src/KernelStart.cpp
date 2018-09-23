@@ -1,20 +1,22 @@
 #include <Types.hpp>
 #include <Console.hpp>
+#include <Keyboard.hpp>
 
 void KernelStop();
 
-void KernelDebug( int x, int y, const char* str) {
-    auto scr = (volatile WORD*) CON_GRAPHIC_MEM;
-
-    scr += (y * 80) + x;
-
-    for ( unsigned i = 0; str[i]; ++i ) {
-        scr[i] = CON_LIGHT_GREEN << 8 | str[i];
-    }
-}
-
 void KernelStart() {
-    KernelConsolePrint("Hello 64Bit!");
+    KernelConsolePrint("Entering IA-32e Mode Successful!\n", CON_LIGHT_GREEN);
+    KernelConsolePrint("Initializing Keyboard Controller....");
+    if ( KernelActivateKeyboard() ) {
+        KernelConsolePrint("FAILED\n", CON_LIGHT_RED);
+        KernelConsolePrint("** Failed to Initializing Keryboard, System STOP", CON_LIGHT_RED);
+        KernelStop();
+    }
+    KernelConsolePrint("SUCCESS\n", CON_LIGHT_GREEN);
+
+    // TODO : Start Keyboard Controller 
+
+
     KernelStop();
 
 }

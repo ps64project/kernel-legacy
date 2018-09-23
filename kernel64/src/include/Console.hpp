@@ -1,7 +1,7 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
-#define   CON_GRAPHIC_MEM 0xB8000
+#define   CON_GRAPHIC_MEM ( CHARACTER* )0xB8000
 
 #define   CON_BLACK       0x00
 #define   CON_BLUE        0x01
@@ -41,8 +41,7 @@ constexpr inline WORD _CONSOLE_CHAR(
     return (attribute << 8) | character;
 }
 
-static CHARACTER KernelConsoleBuffer[25][80];
-static DWORD __pos = 1760;
+static DWORD __pos = 960;
 
 void KernelConsoleClear() {
     auto graphic = (WORD*)CON_GRAPHIC_MEM;
@@ -56,12 +55,22 @@ void KernelConsoleClear() {
 }
 
 void KernelConsolePrint(const char* str, const BYTE attribute = CON_LIGHT_GRAY) {
-    auto graphic = (volatile CHARACTER*) (CON_GRAPHIC_MEM + __pos); 
-
+    auto graphic = ( WORD* ) (CON_GRAPHIC_MEM + __pos); 
+    
     for (unsigned i = 0; str[i]; ++i) {
-        *( ( WORD * ) graphic ) = _CONSOLE_CHAR(str[i], attribute);
+        if (str[i] == '\n') {
+            __pos += 80 - (__pos % 80);
+            continue;
+        }
+        
+        if (__pos > VGA_ADDR_MAX) {
+            __pos = 0;
+        }
 
+        *graphic = _CONSOLE_CHAR(str[i], attribute);
+        
         ++graphic;
+        ++__pos;
     }
 }
 

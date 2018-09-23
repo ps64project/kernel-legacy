@@ -1,12 +1,14 @@
 #include <Instructions.hpp>
 
-void KernelPortInByte (BYTE portNo) {
+BYTE KernelPortInByte (BYTE portNo) {
+    BYTE result = 0x00;
+    
     __asm__ __volatile__ (
         "mov %0, %%rdx   \n\t"
         "mov 0, %%rax    \n\t"
         "in %%dx, %%al"
-        : :
-        "g" (portNo)
+        : "=g" (result) 
+        : "g" (portNo)
     );
 }
 
