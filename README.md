@@ -8,10 +8,9 @@ This project refers the book series named **Principles and Structure of 64bit Mu
  2. http://www.kyobobook.co.kr/product/detailViewKor.laf?barcode=9788979148374 
 
 ## Building Project
-To build and get disk image, execute two commands below:
+To build and get disk image, just one command below:
 
-1. `make imagemaker`
-2. `make`
+ 1. `make`
 
 Then you will get `Disk.img` that can be loaded on VM or real PC!
 
