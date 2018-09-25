@@ -1,4 +1,7 @@
 # Philosopher's Stone
+
+[![Build Status](https://travis-ci.com/0x00000FF/philosophers-stone.svg?branch=master)](https://travis-ci.com/0x00000FF/philosophers-stone)
+
 Philosopher's Stone is ~~my own~~ a kernel/OS project.
 This project refers the book series named **Principles and Structure of 64bit Multi-core Operating System**, by Seunghoon Han.
  1. http://www.kyobobook.co.kr/product/detailViewKor.laf?barcode=9788979148367
