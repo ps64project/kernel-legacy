@@ -10,7 +10,7 @@ BUILD_TEMP=__build
 BUILD_SRC=src
 
 GCC32=gcc
-GCC32_FLAGS=--std=c++2a -m32 -c -ffreestanding -fdata-sections -ffunction-sections -fno-stack-protector -nostdlib -O0 -I../$(BUILD_SRC)/include -Wall -Wextra -Wpedantic -Wl,--gc-sections
+GCC32_FLAGS=--std=c++17 -m32 -c -ffreestanding -fdata-sections -ffunction-sections -fno-stack-protector -nostdlib -O0 -I../$(BUILD_SRC)/include -Wall -Wextra -Wpedantic -Wl,--gc-sections
 
 LD32=ld
 LD32_FLAGS=-melf_i386 -T ../../ldscript/elf_i386.x -nostdlib -e _Z11KernelStartv -Ttext 0x10200

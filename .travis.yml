@@ -1,0 +1,9 @@
+os: linux
+dist: trusty
+language: cpp
+sudo: required
+services: docker
+script: 
+    - set -e
+    - docker build -t 0x00000FF/philosophers-stone
+    - docker run 0x00000FF/philosophers-stone
