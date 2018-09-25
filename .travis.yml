@@ -5,5 +5,5 @@ sudo: required
 services: docker
 script: 
     - set -e
-    - docker build -t 0x00000ff/philosophers-stone
+    - docker build -t 0x00000ff/philosophers-stone .
     - docker run 0x00000ff/philosophers-stone
