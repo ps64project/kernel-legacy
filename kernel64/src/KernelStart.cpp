@@ -11,7 +11,6 @@ void KernelStart() {
 
     KernelDiagMsgPrint("Initializing Keyboard Controller....", KernelActivateKeyboard());
 
-
     KernelStop();
 
 }

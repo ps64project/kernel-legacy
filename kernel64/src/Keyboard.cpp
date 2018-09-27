@@ -1,5 +1,6 @@
 #include <Types.hpp>
 #include <Instructions.hpp>
+#include <Keyboard.hpp>
 
 bool KernelIsKeyOutBufferFull ( void ) {
     return KernelPortInByte( 0x64 ) & 0x01;
@@ -23,7 +24,7 @@ bool KernelActivateKeyboard   ( void ) {
             if ( KernelIsKeyOutBufferFull() ) break; 
         }
 
-        if ( KernelPortInByte( 0x60 ) == 0xFA ) {
+        if ( KernelPortInByte( 0x60 ) == KEYBOARD_ACK ) {
             return true;
         }
     }
@@ -52,7 +53,7 @@ bool KernelSetKeyboardLED     (
             if ( KernelIsKeyOutBufferFull() ) break;
         }
 
-        if ( KernelPortInByte( 0x60 ) == 0xFA ) break;
+        if ( KernelPortInByte( 0x60 ) == KEYBOARD_ACK ) break;
     }
 
     if ( j >= 100 ) return false;
@@ -67,7 +68,7 @@ bool KernelSetKeyboardLED     (
             if ( KernelIsKeyOutBufferFull() ) break;
         }
 
-        if ( KernelPortInByte( 0x60 ) == 0xFA ) break;
+        if ( KernelPortInByte( 0x60 ) == KEYBOARD_ACK ) break;
     }
 
     if ( j >= 100 ) return false;
