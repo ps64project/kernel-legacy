@@ -17,7 +17,6 @@ void  KernelStop            ();
 void KernelStart() {
     KernelPrints(0, 0, "PHILOSOPHER'S STONE :: DEV ALPHA, 0.1", CON_MAGENTA);
     KernelPrints(0, 1, "=====================================");
-
     KernelPrints(0, 2, "32Bit Protected Mode SUCCESS!!", CON_LIGHT_GREEN);
 
     bool isMemoryEnough = KernelCheckMemorySize();
@@ -38,8 +37,6 @@ void KernelStart() {
 
     KernelPrints(0, 10, "Copying IA-32e Kernel Image and Switching...");
     CopyAndSwitchIA32e();
-
-    KernelStop();
 }
 
 DWORD KernelPrints(
