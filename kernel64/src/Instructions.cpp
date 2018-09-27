@@ -12,7 +12,7 @@ BYTE KernelPortInByte (QWORD portNo) {
         : "g" (portNo)
     );
 
-    return (BYTE) result;
+    return result;
 }
 
 void KernelPortOutByte (QWORD portNo, QWORD data) {
