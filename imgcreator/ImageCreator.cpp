@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 
+#define  GET_SECTOR_SIZE(stream) (stream.tellg() % 512 ? stream.tellg() / 512 + 1 : (Size32) stream.tellg());
+
 constexpr uint16_t BYTESPERSECTOR { 512 };
 
 using namespace std;
@@ -63,7 +65,7 @@ int main(int argc, char* argv[]) {
     cout << "[INFO]  Copying Kernel32 into Disk Image..." << endl;
     CopyFile ( sourceStream, targetStream );
 
-    kernel32Sectors = sourceStream.tellg() % 512 ? sourceStream.tellg() / 512 + 1 : (Size32) sourceStream.tellg();
+    kernel32Sectors = GET_SECTOR_SIZE(sourceStream);
     sourceStream.close();
 
     sourceStream = std::ifstream( argv[3] );
@@ -75,7 +77,7 @@ int main(int argc, char* argv[]) {
     cout << "[INFO]  Copying Kernel64 into Disk Image..." << endl;
     CopyFile( sourceStream, targetStream);
 
-    kernel64Sectors = sourceStream.tellg() % 512 ? sourceStream.tellg() / 512 + 1 : (Size32) sourceStream.tellg();
+    kernel64Sectors = GET_SECTOR_SIZE(sourceStream);
     sourceStream.close();
 
     cout << "[INFO]  Writing Kernel Information into Disk Image..." << endl;
